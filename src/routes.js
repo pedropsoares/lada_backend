@@ -2,9 +2,9 @@ const express = require('express');
 
 const routes = express.Router();
 
-routes.get('/users', (req, res) => {
-  console.log(req.query);
-  return res.json({message: 'hello lada'})
-})
+const devController = require('./controllers/devController');
+
+routes.get('/dev', devController.index);
+routes.post('/dev', devController.store);
 
 module.exports = routes;
