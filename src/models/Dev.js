@@ -1,8 +1,12 @@
-const mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const DevSchema = new mongoose.Schema({
   name: String,
-  password: String,
+  password: {
+    type: String,
+    select: false
+  },
   username_github: String,
   techs: [String],
   avatar_url: String,

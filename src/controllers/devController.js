@@ -1,5 +1,7 @@
 const Dev = require('../models/Dev');
 const axios = require('axios');
+const bcrypt = require('bcrypt');
+
 
 module.exports = {
   async index(req, res) {
@@ -10,6 +12,8 @@ module.exports = {
 
   async store(req, res) {
     const { username_github, password, techs, phone, email } = req.body;
+
+  const hash = await bcrypt.hash(password, 10)
 
     let dev = await Dev.findOne({ username_github });
 
@@ -24,13 +28,15 @@ module.exports = {
         name,
         email,
         username_github,
-        password,
+        password: hash,
         avatar_url,
         techs: techsArray,
         phone
       })
+    } else {
+      return res.status(400).json({ menssage: 'non-existing user' })
     }
 
     return res.json(dev)
-  }
+  },
 };
