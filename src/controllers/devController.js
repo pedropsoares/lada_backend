@@ -46,4 +46,8 @@ module.exports = {
       token
     })
   },
+
+  async update(req, res) {
+    return res.send({ mensage: 'ok' })
+  }
 };
