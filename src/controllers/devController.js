@@ -2,6 +2,8 @@ const Dev = require('../models/Dev');
 const axios = require('axios');
 const bcrypt = require('bcrypt');
 
+const tokenGenerator = require('../service/tokenGenerator');
+
 
 module.exports = {
   async index(req, res) {
@@ -13,7 +15,7 @@ module.exports = {
   async store(req, res) {
     const { username_github, password, techs, phone, email } = req.body;
 
-  const hash = await bcrypt.hash(password, 10)
+    const hash = await bcrypt.hash(password, 10)
 
     let dev = await Dev.findOne({ username_github });
 
@@ -37,6 +39,11 @@ module.exports = {
       return res.status(400).json({ menssage: 'non-existing user' })
     }
 
-    return res.json(dev)
+    const token = tokenGenerator.generateToken({ id: dev._id })
+
+    return res.status(200).json({
+      dev,
+      token
+    })
   },
 };
