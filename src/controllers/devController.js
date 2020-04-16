@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 
 const tokenGenerator = require('../service/tokenGenerator');
 
-
 module.exports = {
   async index(req, res) {
     const devs = await Dev.find();

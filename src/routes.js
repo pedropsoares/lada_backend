@@ -2,15 +2,25 @@ const express = require('express');
 
 const routes = express.Router();
 
-const authMiddleware = require('./middlewares/auth');
+const authDevMiddleware = require('./middlewares/authDev');
+const authCompanyMiddleware = require('./middlewares/authCompany');
 
 const devAuth = require('./service/devAuth');
 const devController = require('./controllers/devController');
 
-routes.get('/dev', devController.index);
+const companyAuth = require('./service/companyAuth');
+const companyController = require('./controllers/companyComtroller');
+
 routes.post('/dev', devController.store);
-routes.put('/dev', authMiddleware,devController.update)
+routes.get('/dev', devController.index);
+routes.put('/dev', authDevMiddleware,devController.update)
 
 routes.post('/dev/login', devAuth.session);
+
+routes.post('/company', companyController.store),
+routes.get('/company', companyController.index),
+routes.put('/company', authCompanyMiddleware, companyController.update);
+
+routes.post('/company/login', companyAuth.session);
 
 module.exports = routes;
