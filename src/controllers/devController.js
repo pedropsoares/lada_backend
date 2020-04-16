@@ -48,6 +48,20 @@ module.exports = {
   },
 
   async update(req, res) {
-    return res.send({ mensage: 'ok' })
-  }
+    const { username_github, name, password, techs, phone, email } = req.body;
+
+    const hash = await bcrypt.hash(password, 10)
+
+      const techsArray = techs.split(',').map(tech => tech.trim());
+
+      dev = await Dev.findOneAndUpdate(req.params.devId, {
+        name,
+        email,
+        username_github,
+        password: hash,
+        techs: techsArray,
+        phone
+      }, { new: true })
+      return res.json({ dev })
+    } 
 };

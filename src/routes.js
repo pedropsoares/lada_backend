@@ -11,6 +11,6 @@ routes.get('/dev', devController.index);
 routes.post('/dev', devController.store);
 routes.put('/dev', authMiddleware,devController.update)
 
-routes.post('/login', devAuth.session);
+routes.post('/dev/login', devAuth.session);
 
 module.exports = routes;
