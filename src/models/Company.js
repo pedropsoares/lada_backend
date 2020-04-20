@@ -9,20 +9,11 @@ const CompanySchema = new mongoose.Schema({
   },
   bio: String,
   techs: [String],
-  recruiters: [
-    {
-      name: String,
-      email: String,
-      password: String,
-    }
-  ],
-  opportunitys: [
-    {
-      title: String,
-      descption: String,
-      techs: [String]
-    }
-  ]
+  recruiters: [{}],
+  opportunitys: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Opportunity',
+  }]
 })
 
 module.exports = mongoose.model('Company', CompanySchema);

@@ -28,8 +28,8 @@ module.exports = {
       dev = await Dev.create({
         name,
         email,
-        username_github,
         password: hash,
+        username_github,
         avatar_url,
         techs: techsArray,
         phone

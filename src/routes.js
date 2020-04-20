@@ -11,6 +11,8 @@ const devController = require('./controllers/devController');
 const companyAuth = require('./service/companyAuth');
 const companyController = require('./controllers/companyComtroller');
 
+const recruitController = require('./controllers/recruitContoller');
+
 routes.post('/dev', devController.store);
 routes.get('/dev', devController.index);
 routes.put('/dev', authDevMiddleware,devController.update)
@@ -22,5 +24,8 @@ routes.get('/company', companyController.index),
 routes.put('/company', authCompanyMiddleware, companyController.update);
 
 routes.post('/company/login', companyAuth.session);
+
+routes.get('/company/recruiters', authCompanyMiddleware, recruitController.index),
+routes.post('/company/recruiters', authCompanyMiddleware, recruitController.store),
 
 module.exports = routes;
