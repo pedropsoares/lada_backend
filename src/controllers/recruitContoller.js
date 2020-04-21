@@ -44,12 +44,12 @@ module.exports = {
 
     const hash = await bcrypt.hash(password, 10)
 
-    dev = await Dev.findOneAndUpdate(req.params.devId, {
+    recruiter = await Recruiter.findOneAndUpdate(req.params.recruiterId, {
       name,
       email,
       password: hash,
       phone
     }, { new: true })
-    return res.json({ dev })
+    return res.json({ recruiter })
   }
 };

@@ -28,6 +28,7 @@ routes.post('/company/login', companyAuth.session);
 
 routes.get('/company/recruiters', authCompanyMiddleware, recruitController.index),
 routes.post('/company/recruiters', authCompanyMiddleware, recruitController.store),
+routes.put('/company/recruiters', authCompanyMiddleware, recruitController.update)
 
 routes.post('/recruiter/login', recruiterAuth.session);
 
