@@ -41,4 +41,15 @@ RecruiterSchema.post('findOneAndUpdate', async function (recruiter) {
 
 })
 
+RecruiterSchema.post('findOneAndDelete', async function (recruiter) {
+  const Company = require('./Company');
+
+  let currentCompany = await Company.findById(recruiter.company)
+
+  await Company.findOneAndUpdate({ _id: recruiter.company }, {
+    recruiters: currentCompany.recruiters.filter(({ _id }) => String(_id) !== String(recruiter._id))
+  })
+
+})
+
 module.exports = mongoose.model('Recruiter', RecruiterSchema);

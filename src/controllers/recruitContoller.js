@@ -49,5 +49,11 @@ module.exports = {
       phone,
     }, { new: true })
     return res.json({ recruiter })
+  },
+
+  async delete(req, res) {
+    recruiter = await Recruiter.findOneAndDelete({ _id: req.body._id });
+
+    return res.status(200).send({  message: 'Recruiter excluido com sucesso!' });
   }
 };
