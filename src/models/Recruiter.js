@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
-const Company = require('./Company');
 
 const RecruiterSchema = new mongoose.Schema({
   name: String,
-  email: String,
+  email: {
+    type: String,
+    unique: true
+  },
   password: {
     type: String,
     select: false
@@ -13,16 +15,28 @@ const RecruiterSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Company',
     require: true,
-    select: false
   }
 })
 
-RecruiterSchema.post('save', async function(recruiter) {
-  
+RecruiterSchema.post('save', async function (recruiter) {
+  const Company = require('./Company');
+
   let currentCompany = await Company.findById(recruiter.company)
-  
-  currentCompany = await Company.findOneAndUpdate({ _id: recruiter.company}, {
-    recruiters: [...currentCompany.recruiters,  recruiter ]
+
+  await Company.findOneAndUpdate({ _id: recruiter.company }, {
+    recruiters: [...currentCompany.recruiters, recruiter]
+  })
+
+})
+
+RecruiterSchema.post('findOneAndUpdate', async function (recruiter) {
+  const Company = require('./Company');
+
+  let currentCompany = await Company.findById(recruiter.company)
+
+  await Company.findOneAndUpdate({ _id: recruiter.company }, {
+    recruiters: [...currentCompany.recruiters.filter(({ _id }) => String(_id) !== String(recruiter._id)),
+      recruiter]
   })
 
 })

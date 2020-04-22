@@ -1,5 +1,4 @@
 const Recruiter = require('../models/Recruiter');
-const company = require('../models/Company')
 const bcrypt = require('bcrypt');
 
 module.exports = {
@@ -19,7 +18,6 @@ module.exports = {
 
     
     if (!recruiter) {
-
       
       recruiter = await Recruiter.create({
         name,
@@ -48,7 +46,7 @@ module.exports = {
       name,
       email,
       password: hash,
-      phone
+      phone,
     }, { new: true })
     return res.json({ recruiter })
   }

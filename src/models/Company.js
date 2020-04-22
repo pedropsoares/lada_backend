@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Recruiters = require('../models/Recruiter');
 
 const CompanySchema = new mongoose.Schema({
   name: String,
@@ -10,10 +11,7 @@ const CompanySchema = new mongoose.Schema({
   bio: String,
   techs: [String],
   recruiters: [{}],
-  opportunitys: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Opportunity',
-  }]
+  opportunitys: [{}]
 })
 
 module.exports = mongoose.model('Company', CompanySchema);
