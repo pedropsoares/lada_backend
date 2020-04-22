@@ -2,6 +2,8 @@ const Dev = require('../models/Dev');
 const axios = require('axios');
 const bcrypt = require('bcrypt');
 
+const { getLangsAndtechs } = require('../service/spy');
+
 const tokenGenerator = require('../service/tokenGenerator');
 
 module.exports = {
@@ -23,7 +25,7 @@ module.exports = {
 
       const { name, avatar_url } = apiRes.data;
 
-      const techsArray = techs.split(',').map(tech => tech.trim());
+      const {langs, techs } = await getLangsAndtechs(username_github);
 
       dev = await Dev.create({
         name,
@@ -31,8 +33,9 @@ module.exports = {
         password: hash,
         username_github,
         avatar_url,
-        techs: techsArray,
-        phone
+        phone,
+        langs,
+        techs
       })
     } else {
       return res.status(400).json({ menssage: 'non-existing user' })
@@ -51,16 +54,16 @@ module.exports = {
 
     const hash = await bcrypt.hash(password, 10)
 
-      const techsArray = techs.split(',').map(tech => tech.trim());
+    const techsArray = techs.split(',').map(tech => tech.trim());
 
-      dev = await Dev.findOneAndUpdate(req.params.devId, {
-        name,
-        email,
-        username_github,
-        password: hash,
-        techs: techsArray,
-        phone
-      }, { new: true })
-      return res.json({ dev })
-    } 
+    dev = await Dev.findOneAndUpdate(req.params.devId, {
+      name,
+      email,
+      username_github,
+      password: hash,
+      techs: techsArray,
+      phone
+    }, { new: true })
+    return res.json({ dev })
+  }
 };
