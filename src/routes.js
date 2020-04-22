@@ -14,6 +14,8 @@ const companyController = require('./controllers/companyComtroller');
 const recruiterAuth = require('./service/recruiterAuth');
 const recruitController = require('./controllers/recruitContoller');
 
+const opportunityController = require('./controllers/opportunityController');
+
 routes.post('/dev', devController.store);
 routes.get('/dev', devController.index);
 routes.put('/dev', authDevMiddleware,devController.update)
@@ -26,12 +28,13 @@ routes.put('/company', authCompanyMiddleware, companyController.update);
 
 routes.post('/company/login', companyAuth.session);
 
-routes.get('/company/recruiters', authCompanyMiddleware, recruitController.index),
 routes.post('/company/recruiters', authCompanyMiddleware, recruitController.store),
+routes.get('/company/recruiters', authCompanyMiddleware, recruitController.index),
 routes.put('/company/recruiters', authCompanyMiddleware, recruitController.update)
 
 routes.post('/recruiter/login', recruiterAuth.session);
 
-
+routes.post('/company/opportunitys', authCompanyMiddleware, opportunityController.store),
+routes.put('/company/opportunitys', authCompanyMiddleware, opportunityController.update)
 
 module.exports = routes;
