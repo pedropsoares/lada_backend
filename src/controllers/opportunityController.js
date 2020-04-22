@@ -49,5 +49,11 @@ module.exports = {
       techs: techsArray,
     }, { new: true })
     return res.json({ opportunity })
+  },
+
+  async delete(req, res) {
+    opportunity = await Opportunity.findOneAndDelete({ _id: req.body._id });
+
+    return res.status(200).send({  message: 'Opportunity excluido com sucesso!' });
   }
 };

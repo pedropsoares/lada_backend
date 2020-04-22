@@ -36,5 +36,6 @@ routes.post('/recruiter/login', recruiterAuth.session);
 
 routes.post('/company/opportunitys', authCompanyMiddleware, opportunityController.store),
 routes.put('/company/opportunitys', authCompanyMiddleware, opportunityController.update)
+routes.delete('/company/opportunitys', authCompanyMiddleware, opportunityController.delete)
 
 module.exports = routes;

@@ -33,6 +33,16 @@ OpportunitySchema.post('findOneAndUpdate', async function (opportunity) {
 
 })
 
+OpportunitySchema.post('findOneAndDelete', async function (opportunity) {
+
+  const currentCompany = await Company.findById(opportunity.company)
+  
+  await Company.findOneAndUpdate({ _id: opportunity.company }, {
+    opportunitys: currentCompany.opportunitys.filter(({ _id }) => String(_id) !== String(opportunity._id))
+  })
+
+})
+
 
 module.exports = mongoose.model('Opportunity', OpportunitySchema);
 
