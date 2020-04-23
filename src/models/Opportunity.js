@@ -5,8 +5,9 @@ const OpportunitySchema = new mongoose.Schema({
   title: String,
   descption: String,
   techs: [String],
+  langs: [],
   city: String,
-  salary,
+  salary: String,
   company: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Company',

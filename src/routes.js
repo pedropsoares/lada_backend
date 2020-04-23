@@ -14,10 +14,14 @@ const companyController = require('./controllers/companyComtroller');
 const recruiterAuth = require('./service/recruiterAuth');
 const recruitController = require('./controllers/recruitContoller');
 
+const searchOpportunity = require('./controllers/searchOpportunity');
+
 const opportunityController = require('./controllers/opportunityController');
 
-routes.post('/dev', devController.store);
 routes.get('/dev', devController.index);
+
+routes.post('/dev', authDevMiddleware, devController.store);
+routes.get('/dev/search', searchOpportunity.index);
 routes.put('/dev', authDevMiddleware,devController.update)
 
 routes.post('/dev/login', devAuth.session);
