@@ -1,6 +1,4 @@
 const Opportunity = require('../models/Opportunity');
-const Company = require('../models/Company');
-const bcrypt = require('bcrypt');
 
 module.exports = {
   async index(req, res) {
@@ -11,7 +9,7 @@ module.exports = {
   },
 
   async store(req, res) {
-    const { title, descption, techs } = req.body;
+    const { title, descption, techs, salary } = req.body;
     const company = req.companyId
 
     const techsArray = techs.split(',').map(tech => tech.trim());
@@ -24,7 +22,8 @@ module.exports = {
         title,
         descption,
         techs: techsArray,
-        company
+        company,
+        salary
       })
 
 
@@ -38,7 +37,7 @@ module.exports = {
   },
 
   async update(req, res) {
-    const { title, descption, techs } = req.body;
+    const { title, descption, techs, salary } = req.body;
     const company = req.companyId
 
     const techsArray = techs.split(',').map(tech => tech.trim());
@@ -47,6 +46,7 @@ module.exports = {
       title,
       descption,
       techs: techsArray,
+      salary
     }, { new: true })
     return res.json({ opportunity })
   },
