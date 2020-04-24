@@ -2,23 +2,14 @@ const Opportunity = require('../models/Opportunity');
 
 module.exports = {
   async index(req, res) {
-    const { title, city } = req.body;
+    const { search = '' } = req.body;
 
     let opportunitys = await Opportunity.find({
-      title: { '$regex': `${title}` },
-      city: { '$regex': `${city}` }
+      $or: [
+        { title: { $regex: search ,$options: 'i' } },
+        { descption: { $regex: search ,$options: 'i' } }
+      ]
     })
-
-    if (!city)  
-      opportunitys = await Opportunity.find({
-        title: { '$regex': `${title}` }
-      })
-
-    if (!title)  
-      opportunitys = await Opportunity.find({
-        city: { '$regex': `${city}` }
-      })
-
 
     return res.send({ opportunitys });
   }

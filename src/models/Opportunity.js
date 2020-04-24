@@ -5,7 +5,7 @@ const OpportunitySchema = new mongoose.Schema({
   title: String,
   descption: String,
   techs: [String],
-  langs: [],
+  langs: [String],
   city: String,
   salary: String,
   company: {
