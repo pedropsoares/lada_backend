@@ -24,6 +24,8 @@ routes.post('/dev', authDevMiddleware, devController.store);
 routes.get('/dev/search', searchOpportunity.index);
 routes.put('/dev', authDevMiddleware,devController.update)
 
+routes.get('/dev/opportunities', opportunityController.show);
+
 routes.post('/dev/login', devAuth.session);
 
 routes.post('/company', companyController.store),

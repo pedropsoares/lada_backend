@@ -8,6 +8,28 @@ module.exports = {
     return res.send({ opportunitys });
   },
 
+  async show(req, res) {
+    const { lang, tech } = req.body;
+    let opportunitys = {};
+
+    opportunitys = await Opportunity.find({
+      langs: { $in: [lang] },
+      techs: { $in: [tech] }
+    });
+
+    if (!lang)
+      opportunitys = await Opportunity.find({
+        techs: { $in: [tech] }
+      });
+
+    if (!tech)
+      opportunitys = await Opportunity.find({
+        langs: { $in: [lang] }
+      });
+
+    return res.send({ opportunitys });
+  },
+
   async store(req, res) {
     const { title, descption, langs, techs, salary, city } = req.body;
     const company = req.companyId
@@ -57,6 +79,6 @@ module.exports = {
   async delete(req, res) {
     opportunity = await Opportunity.findOneAndDelete({ _id: req.body._id });
 
-    return res.status(200).send({  message: 'Opportunity excluido com sucesso!' });
+    return res.status(200).send({ message: 'Opportunity excluido com sucesso!' });
   }
 };
