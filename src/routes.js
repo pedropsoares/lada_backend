@@ -20,7 +20,7 @@ const opportunityController = require('./controllers/opportunityController');
 
 routes.get('/dev', devController.index);
 
-routes.post('/dev', authDevMiddleware, devController.store);
+routes.post('/dev', devController.store);
 routes.get('/dev/search', searchOpportunity.index);
 routes.put('/dev', authDevMiddleware,devController.update)
 
