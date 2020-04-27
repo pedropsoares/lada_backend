@@ -1,4 +1,4 @@
-const Opportunity = require('../models/Opportunity');
+ const Opportunity = require('../models/Opportunity');
 
 module.exports = {
   async index(req, res) {
