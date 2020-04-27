@@ -13,6 +13,22 @@ module.exports = {
     return res.json(devs);
   },
 
+  async show(req, res) {
+    const { langs = [], techs = [] } = req.body;
+
+    const where = {}
+
+    if (langs.length) {
+      where['langs.name'] = { $in: langs };
+    }
+
+    if (techs.length) {
+      where['techs.name'] = { $in: techs };
+    }
+
+    return res.send({ devs: await Dev.find(where) });
+  },
+
   async store(req, res) {
     const { username_github, password, techs, phone, email } = req.body;
 
@@ -25,7 +41,7 @@ module.exports = {
 
       const { name, avatar_url } = apiRes.data;
 
-      const {langs, techs } = await getLangsAndtechs(username_github);
+      const { langs, techs } = await getLangsAndtechs(username_github);
 
       dev = await Dev.create({
         name,

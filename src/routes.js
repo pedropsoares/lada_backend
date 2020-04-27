@@ -32,6 +32,8 @@ routes.post('/company', companyController.store),
 routes.get('/company', companyController.index),
 routes.put('/company', authCompanyMiddleware, companyController.update);
 
+routes.get('/company/devs', devController.show);
+
 routes.post('/company/login', companyAuth.session);
 
 routes.post('/company/recruiters', authCompanyMiddleware, recruitController.store),

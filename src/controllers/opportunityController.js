@@ -9,25 +9,23 @@ module.exports = {
   },
 
   async show(req, res) {
-    const { lang, tech } = req.body;
-    let opportunitys = {};
+    const { langs = [], techs = [], city = ''} = req.body;
 
-    opportunitys = await Opportunity.find({
-      langs: { $in: [lang] },
-      techs: { $in: [tech] }
-    });
+    const where = {};
 
-    if (!lang)
-      opportunitys = await Opportunity.find({
-        techs: { $in: [tech] }
-      });
+    if (langs.length) {
+      where['langs'] = { $in: langs };
+    }
 
-    if (!tech)
-      opportunitys = await Opportunity.find({
-        langs: { $in: [lang] }
-      });
+    if (techs.length) {
+      where['techs'] = { $in: techs };
+    }
 
-    return res.send({ opportunitys });
+    if (city.length) {
+      where.city =  city ;
+    }
+
+    return res.send({ opportunitys: await Opportunity.find(where) });
   },
 
   async store(req, res) {
