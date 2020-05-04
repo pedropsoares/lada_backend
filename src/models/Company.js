@@ -4,6 +4,7 @@ const Recruiters = require('../models/Recruiter');
 const CompanySchema = new mongoose.Schema({
   name: String,
   cnpj: String,
+  email: String,
   password: {
     type: String,
     select: false
