@@ -18,6 +18,11 @@ const DevSchema = new mongoose.Schema({
   }],
   avatar_url: String,
   phone: String,
+  cv: [{
+    name: String,
+    size: Number,
+    url: String,
+  }]
 })
 
 module.exports = mongoose.model('Dev', DevSchema);
