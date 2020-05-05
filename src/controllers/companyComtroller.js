@@ -1,4 +1,4 @@
-const Company= require('../models/Company');
+const Company = require('../models/Company');
 const bcrypt = require('bcrypt');
 
 const tokenGenerator = require('../service/tokenGenerator');
@@ -11,7 +11,7 @@ module.exports = {
   },
 
   async store(req, res) {
-    const { name, cnpj, password, techs, bio, email } = req.body;
+    const { name, cnpj, password, langs, techs, bio, email } = req.body;
 
     const hash = await bcrypt.hash(password, 10)
 
@@ -21,16 +21,18 @@ module.exports = {
       return res.status(400).json({ menssage: 'non-existing user' })
     }
 
-      const techsArray = techs.split(',').map(tech => tech.trim());
+    const techsLangs = langs.split(',').map(tech => tech.trim());
+    const techsArray = techs.split(',').map(tech => tech.trim());
 
-      company = await Company.create({
-        name,
-        cnpj,
-        password: hash,
-        techs: techsArray,
-        bio,
-        email
-      })
+    company = await Company.create({
+      name,
+      cnpj,
+      password: hash,
+      langs: techsLangs,
+      techs: techsArray,
+      bio,
+      email
+    })
 
     const token = tokenGenerator.generateToken({ id: company._id })
 
@@ -45,16 +47,19 @@ module.exports = {
 
     const hash = await bcrypt.hash(password, 10)
 
-      const techsArray = techs.split(',').map(tech => tech.trim());
+    const techsLangs = langs.split(',').map(tech => tech.trim());
 
-      company = await Company.findOneAndUpdate(req.params.companyId, {
-        name,
-        cnpj,
-        password: hash,
-        techs: techsArray,
-        bio,
-        email
-      }, { new: true })
-      return res.json({ company })
-    } 
+    const techsArray = techs.split(',').map(tech => tech.trim());
+
+    company = await Company.findOneAndUpdate(req.params.companyId, {
+      name,
+      cnpj,
+      password: hash,
+      langs: techsLangs,
+      techs: techsArray,
+      bio,
+      email
+    }, { new: true })
+    return res.json({ company })
+  }
 };

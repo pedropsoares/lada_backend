@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Recruiters = require('../models/Recruiter');
 
 const CompanySchema = new mongoose.Schema({
   name: String,
