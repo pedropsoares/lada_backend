@@ -22,38 +22,36 @@ const opportunityController = require('./controllers/opportunityController');
 
 const cvController = require('./controllers/cvContoller');
 
-routes.get('/dev', devController.index);
+routes.post('/api/dev', devController.store);
+routes.get('/api/dev', devController.index);
+routes.put('/api/dev', authDevMiddleware,devController.update)
 
-routes.post('/dev', devController.store);
-routes.get('/dev/search', searchOpportunity.index);
-routes.put('/dev', authDevMiddleware,devController.update)
+routes.post('/api/dev/login', devAuth.session); 
 
-routes.get('/dev/opportunities', opportunityController.show);
+routes.get('/api/devs/filter', devController.show);
 
-routes.post('/dev/login', devAuth.session); 
+routes.post('/api/cv', multer(multerConfig).single('file'), authDevMiddleware, cvController.store);
+routes.delete('/api/cv', authDevMiddleware, cvController.delete);
 
-routes.post('/dev/cv/upload', multer(multerConfig).single('file'), authDevMiddleware, cvController.store);
-routes.delete('/dev/cv/delete', authDevMiddleware, cvController.delete);
+routes.post('/api/company', companyController.store),
+routes.get('/api/company', companyController.index),
+routes.put('/api/company', authCompanyMiddleware, companyController.update);
 
-routes.post('/company', companyController.store),
-routes.get('/company', companyController.index),
-routes.put('/company', authCompanyMiddleware, companyController.update);
+routes.post('/api/company/login', companyAuth.session);
 
-routes.get('/company/devs', devController.show);
+routes.post('/api/company/recruiters', authCompanyMiddleware, recruitController.store),
+routes.get('/api/company/recruiters', authCompanyMiddleware, recruitController.index),
+routes.put('/api/company/recruiters', authCompanyMiddleware, recruitController.update)
+routes.delete('/api/company/recruiters', authCompanyMiddleware, recruitController.delete)
 
-routes.post('/company/login', companyAuth.session);
+routes.post('/api/recruiter/login', recruiterAuth.session);
 
-routes.post('/company/recruiters', authCompanyMiddleware, recruitController.store),
-routes.get('/company/recruiters', authCompanyMiddleware, recruitController.index),
-routes.put('/company/recruiters', authCompanyMiddleware, recruitController.update)
-routes.delete('/company/recruiters', authCompanyMiddleware, recruitController.delete)
+routes.post('/api/company/opportunitys', authCompanyMiddleware, opportunityController.store),
+routes.put('/api/company/opportunitys', authCompanyMiddleware, opportunityController.update)
+routes.delete('/api/company/opportunitys', authCompanyMiddleware, opportunityController.delete)
 
-routes.post('/recruiter/login', recruiterAuth.session);
-
-routes.post('/company/opportunitys', authCompanyMiddleware, opportunityController.store),
-routes.put('/company/opportunitys', authCompanyMiddleware, opportunityController.update)
-routes.delete('/company/opportunitys', authCompanyMiddleware, opportunityController.delete)
-
-routes.get('/opportunitys', opportunityController.index);
+routes.get('/api/opportunitys', opportunityController.index);
+routes.get('/api/opportunities/search', searchOpportunity.index);
+routes.get('/api/opportunities/filter', opportunityController.show);
 
 module.exports = routes;
