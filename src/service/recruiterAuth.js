@@ -5,7 +5,9 @@ const tokenGenerator = require('./tokenGenerator');
 
 module.exports = {
   async session(req, res) { 
-    const { email, password } = req.body;
+    const { email, passwordRecruiter } = req.body;
+
+    const password = passwordRecruiter;
 
     const recruiter = await Recruiter.findOne({ email }).select('+password');
     

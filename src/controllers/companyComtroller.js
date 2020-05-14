@@ -1,5 +1,6 @@
 const Company = require('../models/Company');
 const bcrypt = require('bcrypt');
+const Opportunity = require('../models/Opportunity');
 
 const tokenGenerator = require('../service/tokenGenerator');
 
@@ -12,6 +13,7 @@ module.exports = {
 
   async store(req, res) {
     const { name, cnpj, password, langs, techs, bio, email } = req.body;
+    const logo = req.file.destination;
 
     const hash = await bcrypt.hash(password, 10)
 
@@ -21,17 +23,18 @@ module.exports = {
       return res.status(400).json({ menssage: 'non-existing user' })
     }
 
-    const techsLangs = langs.split(',').map(tech => tech.trim());
+    const langsArray = langs.split(',').map(tech => tech.trim());
     const techsArray = techs.split(',').map(tech => tech.trim());
 
     company = await Company.create({
       name,
       cnpj,
       password: hash,
-      langs: techsLangs,
+      langs: langsArray,
       techs: techsArray,
       bio,
-      email
+      email,
+      logo
     })
 
     const token = tokenGenerator.generateToken({ id: company._id })
@@ -61,5 +64,13 @@ module.exports = {
       email
     }, { new: true })
     return res.json({ company })
+  },
+
+  async listOpportunities(req, res) {
+    const company = req.companyId;
+
+    let opportunity = await Opportunity.find({ company });
+
+    return res.json({ opportunity })
   }
 };

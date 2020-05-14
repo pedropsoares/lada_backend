@@ -28,7 +28,7 @@ module.exports = {
       })
 
     } else {
-      return res.status(400).json({ menssage: 'user already has a CV in the system' })
+      return res.status(400).json({ menssage: 'to insert a new cv delete the previous one' })
     }
 
     return res.status(200).json({
