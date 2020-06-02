@@ -45,14 +45,14 @@ routes.post('/api/company/login', companyAuth.session);
 routes.post('/api/recruiters', authCompanyMiddleware, recruitController.store),
 routes.get('/api/recruiters', authCompanyMiddleware, recruitController.index),
 routes.put('/api/recruiters', authCompanyMiddleware, recruitController.update)
-routes.delete('/api/recruiters', authCompanyMiddleware, recruitController.delete)
+routes.delete('/api/recruiters/:_id', authCompanyMiddleware, recruitController.delete)
 
 routes.post('/api/recruiter/login', recruiterAuth.session);
 
 routes.post('/api/opportunitys', authCompanyMiddleware, opportunityController.store),
 routes.get('/api/opportunitys', opportunityController.index);
 routes.put('/api/opportunitys', authCompanyMiddleware, opportunityController.update)
-routes.delete('/api/opportunitys', authCompanyMiddleware, opportunityController.delete)
+routes.delete('/api/opportunitys/:_id', authCompanyMiddleware, opportunityController.delete)
 
 routes.get('/api/opportunitys/search', searchOpportunity.index);
 routes.get('/api/opportunitys/filter', opportunityController.show);

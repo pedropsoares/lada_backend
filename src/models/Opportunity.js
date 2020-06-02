@@ -37,8 +37,11 @@ OpportunitySchema.post('findOneAndUpdate', async function (opportunity) {
 })
 
 OpportunitySchema.post('findOneAndDelete', async function (opportunity) {
+  const Company = require('./Company');
 
-  const currentCompany = await Company.findById(opportunity.company)
+  console.log(opportunity)
+
+  let currentCompany = await Company.findById(opportunity.company)
   
   await Company.findOneAndUpdate({ _id: opportunity.company }, {
     opportunitys: currentCompany.opportunitys.filter(({ _id }) => String(_id) !== String(opportunity._id))

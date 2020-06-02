@@ -8,7 +8,6 @@ const RecruiterSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    select: false
   },
   phone: String,
   company: {

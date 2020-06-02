@@ -75,7 +75,7 @@ module.exports = {
   },
 
   async delete(req, res) {
-    opportunity = await Opportunity.findOneAndDelete({ _id: req.body._id });
+    opportunity = await Opportunity.findOneAndDelete({ _id: req.params._id});
 
     return res.status(200).send({ message: 'Opportunity excluido com sucesso!' });
   }
