@@ -70,7 +70,9 @@ module.exports = {
 
     const hash = await bcrypt.hash(password, 10)
 
-    dev = await Dev.findOneAndUpdate(req.params.devId, {
+    console.log(req.devId)
+
+    dev = await Dev.findOneAndUpdate(req.devId, {
       name,
       email,
       username_github,

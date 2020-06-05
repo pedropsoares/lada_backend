@@ -25,7 +25,7 @@ const cvController = require('./controllers/cvContoller');
 
 routes.post('/api/dev', devController.store);
 routes.get('/api/dev', devController.index);
-routes.put('/api/dev', authDevMiddleware,devController.update)
+routes.put('/api/dev', authDevMiddleware, devController.update)
 routes.delete('/api/dev/:_id',  devController.delete)
 
 routes.post('/api/dev/login', devAuth.session); 
