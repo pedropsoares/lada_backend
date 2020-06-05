@@ -40,7 +40,7 @@ routes.get('/api/company', companyController.index),
 routes.put('/api/company', authCompanyMiddleware, companyController.update);
 
 routes.get('/api/company/opportunities', authCompanyMiddleware, companyController.listOpportunities)
-routes.get('/api/company/home', authCompanyMiddleware, companyController.show)
+routes.get('/api/company/home', authCompanyMiddleware, companyController.home)
 
 routes.post('/api/company/login', companyAuth.session);
 

@@ -13,7 +13,7 @@ module.exports = {
     return res.json(companys);
   },
 
-  async show(req, res) {
+  async home(req, res) {
     const company = await Company.findOne({ _id: req.companyId })
 
     return res.json({ company })
