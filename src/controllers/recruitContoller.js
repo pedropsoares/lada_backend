@@ -38,14 +38,24 @@ module.exports = {
   },
 
   async update(req, res) {
-    const { name, email, password, phone } = req.body;
+    const { name, password, phone, email, _id } = req.body;
 
     const hash = await bcrypt.hash(password, 10)
 
-    recruiter = await Recruiter.findOneAndUpdate(req.body._id, {
+    let newPassword = String;
+
+    const recruiterCurr = await Recruiter.findById( _id )
+
+    if( password != recruiterCurr.password) {
+      newPassword = hash;
+    } else {
+      newPassword = password;
+    }
+
+    recruiter = await Recruiter.findByIdAndUpdate( _id, {
       name,
       email,
-      password: hash,
+      password: newPassword,
       phone
     }, { new: true })
     return res.json({ recruiter })
