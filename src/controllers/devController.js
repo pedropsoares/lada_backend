@@ -70,18 +70,25 @@ module.exports = {
 
     const hash = await bcrypt.hash(password, 10)
 
-    console.log(req.devId)
+    let newPassword = String;
 
-    dev = await Dev.findOneAndUpdate(req.devId, {
+    const devCurr = await Dev.findById( req.devId )
+
+    if( password != devCurr.password) {
+      newPassword = hash;
+    } else {
+      newPassword = password;
+    }
+
+    dev = await Dev.findByIdAndUpdate( req.devId, {
       name,
       email,
       username_github,
-      password: hash,
+      password: newPassword,
       phone
     }, { new: true })
     return res.json({ dev })
   },
-
   async delete(req, res) {
     dev = await Dev.findOneAndDelete({ _id: req.params._id });
     return res.status(200).send({ message: 'Recruiter excluido com sucesso!' });
