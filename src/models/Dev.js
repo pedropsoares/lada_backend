@@ -5,7 +5,6 @@ const DevSchema = new mongoose.Schema({
   email: String,
   password: {
     type: String,
-    select: false
   },
   username_github: String,
   langs: [{

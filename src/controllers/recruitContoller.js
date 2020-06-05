@@ -16,9 +16,9 @@ module.exports = {
 
     let recruiter = await Recruiter.findOne({ email });
 
-    
+
     if (!recruiter) {
-      
+
       recruiter = await Recruiter.create({
         name,
         email,
@@ -27,11 +27,11 @@ module.exports = {
         company: req.companyId
       })
 
-      
+
     } else {
       return res.status(400).json({ menssage: 'non-existing user' })
     }
-     
+
     return res.status(200).json({
       recruiter
     })
@@ -42,18 +42,28 @@ module.exports = {
 
     const hash = await bcrypt.hash(password, 10)
 
-    recruiter = await Recruiter.findOneAndUpdate(req.params.recruiterId, {
+    recruiter = await Recruiter.findOneAndUpdate(req.body._id, {
       name,
       email,
       password: hash,
-      phone,
+      phone
     }, { new: true })
     return res.json({ recruiter })
   },
 
   async delete(req, res) {
     recruiter = await Recruiter.findOneAndDelete({ _id: req.params._id });
-
-    return res.status(200).send({  message: 'Recruiter excluido com sucesso!' });
+    console.log('ok')
+    return res.status(200).send({ message: 'Recruiter excluido com sucesso!' });
   }
 };
+
+/*let newPassword = String;
+
+    const recruiterOwnde = await Recruiter.findOne({ _id })
+
+    if( password != recruiterOwnde.password) {
+      newPassword = hash;
+    } else {
+      newPassword = password;
+    }*/

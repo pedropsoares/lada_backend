@@ -23,7 +23,7 @@
     "multer-s3": "^2.9.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.4"
   },
   "repository": "https://github.com/pedropsoares/lada_backend.git",
   "author": "pedropsoares <pedropaulos.1998@gmail.com>"

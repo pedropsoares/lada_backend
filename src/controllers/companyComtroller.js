@@ -8,7 +8,15 @@ module.exports = {
   async index(req, res) {
     const companys = await Company.find();
 
+    console.log(req)
+
     return res.json(companys);
+  },
+
+  async show(req, res) {
+    const company = await Company.findOne({ _id: req.companyId })
+
+    return res.json({ company })
   },
 
   async store(req, res) {

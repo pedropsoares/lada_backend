@@ -30,7 +30,7 @@ module.exports = {
   },
 
   async store(req, res) {
-    const { username_github, password, techs, phone, email } = req.body;
+    const { name, username_github, password, phone, email } = req.body;
 
     const hash = await bcrypt.hash(password, 10)
 
@@ -39,7 +39,7 @@ module.exports = {
     if (!dev) {
       const apiRes = await axios.get(`https://api.github.com/users/${username_github}`);
 
-      const { name, avatar_url } = apiRes.data;
+      const { avatar_url } = apiRes.data;
 
       const { langs, techs } = await getLangsAndtechs(username_github);
 
@@ -66,20 +66,22 @@ module.exports = {
   },
 
   async update(req, res) {
-    const { username_github, name, password, techs, phone, email } = req.body;
+    const { username_github, name, password, phone, email } = req.body;
 
     const hash = await bcrypt.hash(password, 10)
-
-    const techsArray = techs.split(',').map(tech => tech.trim());
 
     dev = await Dev.findOneAndUpdate(req.params.devId, {
       name,
       email,
       username_github,
       password: hash,
-      techs: techsArray,
       phone
     }, { new: true })
     return res.json({ dev })
+  },
+
+  async delete(req, res) {
+    dev = await Dev.findOneAndDelete({ _id: req.params._id });
+    return res.status(200).send({ message: 'Recruiter excluido com sucesso!' });
   }
 };

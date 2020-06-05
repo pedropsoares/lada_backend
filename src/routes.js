@@ -26,19 +26,21 @@ const cvController = require('./controllers/cvContoller');
 routes.post('/api/dev', devController.store);
 routes.get('/api/dev', devController.index);
 routes.put('/api/dev', authDevMiddleware,devController.update)
+routes.delete('/api/dev/:_id',  devController.delete)
 
 routes.post('/api/dev/login', devAuth.session); 
 
 routes.get('/api/dev/filter', devController.show);
 
 routes.post('/api/cv', multer(multerConfig).single('file'), authDevMiddleware, cvController.store);
-routes.delete('/api/cv', authDevMiddleware, cvController.delete);
+routes.delete('/api/cv', cvController.delete);
 
 routes.post('/api/company', multer(uploadConfig).single('logoCompany'), companyController.store),
 routes.get('/api/company', companyController.index),
 routes.put('/api/company', authCompanyMiddleware, companyController.update);
 
 routes.get('/api/company/opportunities', authCompanyMiddleware, companyController.listOpportunities)
+routes.get('/api/company/home', authCompanyMiddleware, companyController.show)
 
 routes.post('/api/company/login', companyAuth.session);
 
