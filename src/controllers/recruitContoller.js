@@ -63,17 +63,6 @@ module.exports = {
 
   async delete(req, res) {
     recruiter = await Recruiter.findOneAndDelete({ _id: req.params._id });
-    console.log('ok')
     return res.status(200).send({ message: 'Recruiter excluido com sucesso!' });
   }
 };
-
-/*let newPassword = String;
-
-    const recruiterOwnde = await Recruiter.findOne({ _id })
-
-    if( password != recruiterOwnde.password) {
-      newPassword = hash;
-    } else {
-      newPassword = password;
-    }*/

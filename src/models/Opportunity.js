@@ -39,8 +39,6 @@ OpportunitySchema.post('findOneAndUpdate', async function (opportunity) {
 OpportunitySchema.post('findOneAndDelete', async function (opportunity) {
   const Company = require('./Company');
 
-  console.log(opportunity)
-
   let currentCompany = await Company.findById(opportunity.company)
   
   await Company.findOneAndUpdate({ _id: opportunity.company }, {
