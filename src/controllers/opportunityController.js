@@ -29,11 +29,11 @@ module.exports = {
   },
 
   async store(req, res) {
-    const { title, descption, langs, techs, salary, city } = req.body;
+    const { title = "", descption = "", langs = "", techs = "", salary = "", city = "" } = req.body;
     const company = req.companyId
 
-    const techsArray = techs.split(',').map(tech => tech.trim());
     const langsArray = langs.split(',').map(tech => tech.trim());
+    const techsArray = techs.split(',').map(tech => tech.trim());
 
     let opportunity = await Opportunity.findOne({ title, company });
 
@@ -60,15 +60,18 @@ module.exports = {
   },
 
   async update(req, res) {
-    const { title, descption, techs, salary } = req.body;
-    const company = req.companyId
+    const { title, descption, langs, techs, salary, _id } = req.body;
 
-    const techsArray = techs.split(',').map(tech => tech.trim());
+    console.log(langs)
 
-    opportunity = await Opportunity.findOneAndUpdate({ title, company }, {
+    // const langsArray = langs.split(',').map(tech => tech.trim());
+    // const techsArray = techs.split(',').map(tech => tech.trim());
+
+    opportunity = await Opportunity.findByIdAndUpdate( _id , {
       title,
       descption,
-      techs: techsArray,
+      langs,
+      techs,
       salary
     }, { new: true })
     return res.json({ opportunity })
