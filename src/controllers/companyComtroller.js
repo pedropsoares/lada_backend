@@ -8,8 +8,6 @@ module.exports = {
   async index(req, res) {
     const companys = await Company.find();
 
-    console.log(req)
-
     return res.json(companys);
   },
 
