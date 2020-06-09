@@ -23,14 +23,14 @@ const opportunityController = require('./controllers/opportunityController');
 
 const cvController = require('./controllers/cvContoller');
 
+const langsAndTechsController = require('./controllers/langsAndTechsController');
+
 routes.post('/api/dev', devController.store);
-routes.get('/api/dev', devController.index);
+routes.get('/api/dev', devController.show);
 routes.put('/api/dev', authDevMiddleware, devController.update)
 routes.delete('/api/dev/:_id',  devController.delete)
 
 routes.post('/api/dev/login', devAuth.session); 
-
-routes.get('/api/dev/filter', devController.show);
 
 routes.post('/api/cv', multer(multerConfig).single('file'), authDevMiddleware, cvController.store);
 routes.delete('/api/cv', cvController.delete);
@@ -58,5 +58,8 @@ routes.delete('/api/opportunitys/:_id', authCompanyMiddleware, opportunityContro
 
 routes.get('/api/opportunitys/search', searchOpportunity.index);
 routes.get('/api/opportunitys/filter', opportunityController.show);
+
+routes.get('/api/langs', langsAndTechsController.indexlangs);
+routes.get('/api/techs', langsAndTechsController.indexTechs);
 
 module.exports = routes;
