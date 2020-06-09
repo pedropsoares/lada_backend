@@ -3,7 +3,10 @@ const Opportunity = require('../models/Opportunity');
 module.exports = {
   async index(req, res) {
 
-    const opportunitys = await Opportunity.find()
+    const opportunitys = await Opportunity.find().populate({ 
+      path: 'company', 
+      select: 'name'
+    });
 
     return res.send({ opportunitys });
   },
