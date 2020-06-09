@@ -1,4 +1,6 @@
 const Dev = require('../models/Dev');
+const Lang = require('../models/Lang');
+const Tech = require('../models/Tech');
 const axios = require('axios');
 const bcrypt = require('bcrypt');
 
@@ -7,23 +9,17 @@ const { getLangsAndtechs } = require('../service/spy');
 const tokenGenerator = require('../service/tokenGenerator');
 
 module.exports = {
-  async index(req, res) {
-    const devs = await Dev.find();
-
-    return res.json(devs);
-  },
-
   async show(req, res) {
-    const { langs = [], techs = [] } = req.body;
+    const { lang = "", tech = "" } = req.query;
 
     const where = {}
 
-    if (langs.length) {
-      where['langs.name'] = { $in: langs };
+    if (lang.length) {
+      where['langs.name'] = { $in: [lang] };
     }
 
-    if (techs.length) {
-      where['techs.name'] = { $in: techs };
+    if (tech.length) {
+      where['techs.name'] = { $in: [tech] };
     }
 
     return res.send({ devs: await Dev.find(where) });
@@ -42,6 +38,23 @@ module.exports = {
       const { avatar_url } = apiRes.data;
 
       const { langs, techs } = await getLangsAndtechs(username_github);
+
+      const existinglangs = await Lang.find();
+      const existingTechs = await Lang.find();
+
+      const remainingLangs = langs.filter(({ name }) =>
+        existinglangs.findIndex(lang => lang.name === name) === -1).map(({ name }) => ({ name }))
+
+      if (remainingLangs.length) {
+        Lang.insertMany(remainingLangs);
+      }
+
+      const remainingTechs = techs.filter(({ name }) =>
+        existingTechs.findIndex(lang => lang.name === name) === -1).map(({ name }) => ({ name }))
+
+      if (remainingTechs.length) {
+        Tech.insertMany(remainingTechs);
+      }
 
       dev = await Dev.create({
         name,
@@ -72,15 +85,15 @@ module.exports = {
 
     let newPassword = String;
 
-    const devCurr = await Dev.findById( req.devId )
+    const devCurr = await Dev.findById(req.devId)
 
-    if( password != devCurr.password) {
+    if (password != devCurr.password) {
       newPassword = hash;
     } else {
       newPassword = password;
     }
 
-    dev = await Dev.findByIdAndUpdate( req.devId, {
+    dev = await Dev.findByIdAndUpdate(req.devId, {
       name,
       email,
       username_github,
