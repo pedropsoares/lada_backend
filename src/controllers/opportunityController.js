@@ -3,8 +3,8 @@ const Opportunity = require('../models/Opportunity');
 module.exports = {
   async index(req, res) {
 
-    const opportunitys = await Opportunity.find().populate({ 
-      path: 'company', 
+    const opportunitys = await Opportunity.find().populate({
+      path: 'company',
       select: 'name'
     });
 
@@ -12,7 +12,7 @@ module.exports = {
   },
 
   async show(req, res) {
-    const { langs = [], techs = [], city = ''} = req.body;
+    const { langs = [], techs = [], city = '' } = req.body;
 
     const where = {};
 
@@ -25,10 +25,15 @@ module.exports = {
     }
 
     if (city.length) {
-      where.city =  city ;
+      where.city = city;
     }
 
-    return res.send({ opportunitys: await Opportunity.find(where) });
+    return res.send({
+      opportunitys: await Opportunity.find(where).populate({
+        path: 'company',
+        select: 'name'
+      })
+    });
   },
 
   async store(req, res) {
@@ -70,7 +75,7 @@ module.exports = {
     // const langsArray = langs.split(',').map(tech => tech.trim());
     // const techsArray = techs.split(',').map(tech => tech.trim());
 
-    opportunity = await Opportunity.findByIdAndUpdate( _id , {
+    opportunity = await Opportunity.findByIdAndUpdate(_id, {
       title,
       descption,
       langs,
@@ -81,7 +86,7 @@ module.exports = {
   },
 
   async delete(req, res) {
-    opportunity = await Opportunity.findOneAndDelete({ _id: req.params._id});
+    opportunity = await Opportunity.findOneAndDelete({ _id: req.params._id });
 
     return res.status(200).send({ message: 'Opportunity excluido com sucesso!' });
   }
