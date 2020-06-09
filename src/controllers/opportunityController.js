@@ -29,11 +29,11 @@ module.exports = {
   },
 
   async store(req, res) {
-    const { title = "", descption = "", langs = "", techs = "", salary = "", city = "" } = req.body;
+    const { title = "", descption = "", langs = [], techs = [], salary = "", city = "" } = req.body;
     const company = req.companyId
 
-    const langsArray = langs.split(',').map(tech => tech.trim());
-    const techsArray = techs.split(',').map(tech => tech.trim());
+    const langsArray = langs.split(', ').map(tech => tech.trim());
+    const techsArray = techs.split(', ').map(tech => tech.trim());
 
     let opportunity = await Opportunity.findOne({ title, company });
 
